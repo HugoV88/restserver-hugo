@@ -11,7 +11,11 @@ se procede a importar las variables globales.
     5. Inventamos una variable de entorno global para igualarla a la variable que utilizamos en la declaración.
     6. Exportamos la variable de entorno global creada al servidor y se introduce en la conexión de mongodb.
     7. Forzamos para que haga una conexión con el servidor comentando lo que nos impide, y hacemos un test para
-probar. 
+probar.
+    8. Subimos todos los cambios a GIT y heroku.
+    9. Para que no se vea las credenciales y contraseñas de nuestro código, se creará una variable de entorno por
+medio de heroku de la siguiente forma: <heroku config:set nombre="comando a utilizar"> para remover sería unset y
+obtener sería get.
 FIN
 */
 
