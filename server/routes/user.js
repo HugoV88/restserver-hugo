@@ -1,10 +1,11 @@
 const express = require("express"),
     Usuario = require("../models/user"),
-    bcrypt = require("bcrypt");
+    bcrypt = require("bcrypt"),
+    { verificarToken, verificarRol } = require("../middleware/aunthetification");
 
 const app = express();
 
-app.get("/usuario", (req, res) => {
+app.get("/usuario", verificarToken, (req, res) => {
     let body = req.body,
         inicio = Number(req.query.inicio) || 0,
         limite = Number(req.query.limite) || 5;
@@ -37,7 +38,7 @@ app.get("/usuario", (req, res) => {
         })
 });
 
-app.post("/usuario", (req, res) => {
+app.post("/usuario", [verificarToken, verificarRol], (req, res) => {
     let body = req.body,
         usuario = new Usuario({
             nombre: body.nombre,
@@ -61,7 +62,7 @@ app.post("/usuario", (req, res) => {
     })
 });
 
-app.put("/usuario/:id", (req, res) => {
+app.put("/usuario/:id", [verificarToken, verificarRol], (req, res) => {
     let id = req.params.id,
         body = req.body;
 
@@ -82,7 +83,7 @@ app.put("/usuario/:id", (req, res) => {
     });
 });
 
-app.delete("/usuario/:id", (req, res) => {
+app.delete("/usuario/:id", [verificarToken, verificarRol], (req, res) => {
     let id = req.params.id,
         cambiaStatus = {
             estado: false
