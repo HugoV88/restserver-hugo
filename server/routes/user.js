@@ -74,11 +74,18 @@ app.put("/usuario/:id", [verificarToken, verificarRol], (req, res) => {
             res.status(400).json({
                 ok: false,
                 err
-            })
+            });
+        } else if (!usuarioDB) {
+            res.status(400).json({
+                ok: false,
+                err: {
+                    message: "El usuario no existe en la base de datos"
+                }
+            });
         } else {
             res.json({
                 usuario: usuarioDB
-            })
+            });
         }
     });
 });
@@ -89,13 +96,13 @@ app.delete("/usuario/:id", [verificarToken, verificarRol], (req, res) => {
             estado: false
         };
 
-    Usuario.findByIdAndUpdate(id, cambiaStatus, { new: true }, (err, usuarioDel) => {
+    Usuario.findByIdAndUpdate(id, cambiaStatus, (err, usuarioDel) => {
         if (err) {
             res.status(400).json({
                 ok: false,
                 err
             })
-        } else if (!usuarioDel) {
+        } else if (!usuarioDel || !usuarioDel.estado) {
             res.status(400).json({
                 ok: false,
                 err: {
